@@ -1,19 +1,16 @@
 [build]
-# Default build configurations
+# Configuración global (opcional)
 
-[deploy]
-# If the root directory option is missing in UI, 
-# you can use specific service configuration patterns here if supported, 
-# but simply having this file can sometimes trigger better detection.
+# Backend (Python)
+[[services]]
+name = "backend"
+root = "./Backend"
+start = "python api.py"
+buildCommand = "pip install -r requirements.txt"
 
-# For a monorepo, it is often better to rely on the UI settings "Root Directory".
-# If you are reading this, try to find "Root Directory" in Service Settings -> Source.
-
-# Backend Service (Python)
-# Root Directory: /Backend
-# Start Command: python api.py
-
-# Frontend Service (Node)
-# Root Directory: /Frontend
-# Build Command: npm run build
-# Start Command: npm start
+# Frontend (Node.js)
+[[services]]
+name = "frontend"
+root = "./Frontend"
+start = "npm start"
+buildCommand = "npm install && npm run build"
