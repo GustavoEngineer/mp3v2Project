@@ -13,9 +13,12 @@ function App() {
     setError(null)
 
     try {
+      // Use environment variable for API URL if available (for production), otherwise localhost
+      const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+      const downloadUrl = `${apiBase}/download?url=${encodeURIComponent(url)}`
+
       // Trigger download directly via browser
-      // Using the backend running on port 8080 as per existing setup
-      window.location.href = `http://localhost:8080/download?url=${encodeURIComponent(url)}`
+      window.location.href = downloadUrl
 
       // Reset loading after a delay since we can't easily track download progress this way
       setTimeout(() => setLoading(false), 3000)
