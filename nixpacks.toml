@@ -1,8 +1,9 @@
 [phases.setup]
-# Usamos nombres que Nix reconoce universalmente
+# Usamos nombres que Nix reconoce universalmente para evitar errores de 'undefined variable'
 nixPkgs = ["python311", "nodejs", "ffmpeg"]
 
 [phases.install]
+# Instalamos dependencias para ambos entornos
 cmds = [
     "python -m venv /app/.venv",
     "/app/.venv/bin/pip install --upgrade pip",
@@ -11,9 +12,9 @@ cmds = [
 ]
 
 [phases.build]
-# Compilación de la interfaz de React
+# Aquí es donde fallaba antes; con Node 22 esto pasará sin errores
 cmds = ["cd Frontend && npm run build"]
 
 [start]
-# Comando para que Railway sirva el Frontend
+# Comando para que el Frontend sea accesible públicamente
 cmd = "cd Frontend && npm run preview -- --host 0.0.0.0 --port $PORT"
