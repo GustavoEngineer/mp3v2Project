@@ -1,7 +1,6 @@
 [phases.setup]
-# Forzamos la instalación de los lenguajes necesarios. 
-# USAMOS nodejs_22 para garantizar compatibilidad con Vite 20.19+ (nodejs_20 podría instalar una versión menor).
-nixPkgs = ["python311", "nodejs_22", "ffmpeg"]
+# Forzamos la instalación de los lenguajes necesarios
+nixPkgs = ["python311", "nodejs_20", "ffmpeg"]
 
 [phases.install]
 # Ahora los comandos reconocerán 'python' y 'npm'
