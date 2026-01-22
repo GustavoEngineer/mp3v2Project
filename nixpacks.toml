@@ -1,6 +1,6 @@
 [phases.setup]
-# Usamos 'nodejs_22' para que Railway use Node.js 22 (Vite requiere 20.19+ o 22.12+)
-nixPkgs = ["python311", "nodejs_22", "ffmpeg"]
+# Usamos 'nodejs_20' (Node 20+) que cumple con los requisitos de Vite (20.19+ o 22.12+)
+nixPkgs = ["python311", "nodejs_20", "ffmpeg"]
 
 [phases.install]
 cmds = [
