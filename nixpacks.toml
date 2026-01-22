@@ -1,9 +1,10 @@
 [phases.setup]
-# Esto garantiza que los binarios existan en el contenedor
-nixPkgs = ["python311", "nodejs", "ffmpeg"]
+# Forzamos la instalación de los lenguajes necesarios. 
+# USAMOS nodejs_22 para garantizar compatibilidad con Vite 20.19+ (nodejs_20 podría instalar una versión menor).
+nixPkgs = ["python311", "nodejs_22", "ffmpeg"]
 
 [phases.install]
-# Ahora 'python' ya será reconocido por el sistema
+# Ahora los comandos reconocerán 'python' y 'npm'
 cmds = [
     "python -m venv /app/.venv",
     "/app/.venv/bin/pip install --upgrade pip",
@@ -12,9 +13,9 @@ cmds = [
 ]
 
 [phases.build]
-# Compilación del frontend de React
+# Compilamos el Frontend de React
 cmds = ["cd Frontend && npm run build"]
 
 [start]
-# Ejecución del backend usando el entorno virtual
+# Ejecutamos el servidor de Python
 cmd = "cd Backend && /app/.venv/bin/python api.py"
