@@ -1,8 +1,8 @@
 [phases.setup]
-nixPkgs = ["python311", "nodejs-18_x", "ffmpeg"]
+nixPkgs = ["python311", "nodejs", "ffmpeg"]
 
 [phases.install]
-# Instalamos pip y las dependencias en un solo paso de instalación
+# Forzamos la instalación de pip antes de instalar los requerimientos
 cmds = [
     "python -m ensurepip",
     "python -m pip install --upgrade pip",
