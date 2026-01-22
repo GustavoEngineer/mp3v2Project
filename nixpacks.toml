@@ -1,4 +1,5 @@
 [phases.setup]
+# Usamos nombres genéricos para que Nix los resuelva con la versión de las variables
 nixPkgs = ["python311", "nodejs", "ffmpeg"]
 
 [phases.install]
@@ -10,8 +11,7 @@ cmds = [
 ]
 
 [phases.build]
-# Forzamos a que use la versión más reciente disponible de node en el entorno
-cmds = ["node -v && cd Frontend && npm run build"]
+cmds = ["cd Frontend && npm run build"]
 
 [start]
 cmd = "cd Backend && /app/.venv/bin/python api.py"
