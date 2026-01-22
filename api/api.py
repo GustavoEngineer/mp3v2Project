@@ -106,19 +106,31 @@ def api_descargar_audio_get():
             'http_headers': SHARED_HEADERS,
         }
 
+        # Check for FFmpeg to decide if we can convert
+        if not shutil.which('ffmpeg'):
+            print("FFmpeg not found. Skipping MP3 conversion.")
+            # Remove postprocessors if no ffmpeg
+            if 'postprocessors' in opciones_ydl:
+                del opciones_ydl['postprocessors']
+
         with yt_dlp.YoutubeDL(opciones_ydl) as ydl:
             info = ydl.extract_info(url, download=True)
             titulo = limpiar_nombre(info['title'])
-            # El archivo final tendrá extensión .mp3
-            archivo_path = os.path.join(temp_dir, f"{titulo}.mp3")
+            # Determine extension
+            ext = info.get('ext', 'mp3')
+            if shutil.which('ffmpeg'):
+                ext = 'mp3'
+            
+            archivo_path = os.path.join(temp_dir, f"{titulo}.{ext}")
 
         # Verificar si el archivo existe (a veces el título puede variar ligeramente)
         if not os.path.exists(archivo_path):
-            # Intentar buscar cualquier archivo mp3 en el directorio temp
-            archivos = [f for f in os.listdir(temp_dir) if f.endswith('.mp3')]
+            # Intentar buscar cualquier archivo en el directorio temp
+            archivos = [f for f in os.listdir(temp_dir) if os.path.isfile(os.path.join(temp_dir, f))]
             if archivos:
                 archivo_path = os.path.join(temp_dir, archivos[0])
                 titulo = os.path.splitext(archivos[0])[0]
+                ext = os.path.splitext(archivos[0])[1].replace('.', '')
             else:
                 raise Exception("No se pudo encontrar el archivo descargado.")
 
@@ -133,8 +145,8 @@ def api_descargar_audio_get():
         return send_file(
             archivo_path, 
             as_attachment=True, 
-            download_name=f"{titulo}.mp3", 
-            mimetype='audio/mpeg'
+            download_name=f"{titulo}.{ext}", 
+            mimetype='audio/mpeg' if ext == 'mp3' else 'application/octet-stream'
         )
 
     except Exception as e:
