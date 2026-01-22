@@ -1,12 +1,19 @@
 [phases.setup]
-nixPkgs = ["python311", "nodejs", "ffmpeg"]
+# Especificamos nodejs_20 para cumplir con los requisitos de Vite
+nixPkgs = ["python311", "nodejs_20", "ffmpeg"]
 
 [phases.install]
 cmds = [
     "python -m venv /app/.venv",
     "/app/.venv/bin/pip install --upgrade pip",
-    "cd Backend && /app/.venv/bin/pip install -r requirements.txt"
+    "cd Backend && /app/.venv/bin/pip install -r requirements.txt",
+    "cd Frontend && npm install"
 ]
 
+[phases.build]
+# Separamos la fase de compilación del frontend
+cmds = ["cd Frontend && npm run build"]
+
 [start]
+# Comando para iniciar el servidor de música
 cmd = "cd Backend && /app/.venv/bin/python api.py"
