@@ -1,9 +1,8 @@
 [phases.setup]
-# Forzamos la instalación de los lenguajes necesarios
-nixPkgs = ["python311", "nodejs_20", "ffmpeg"]
+# Usamos nombres que Nix reconoce universalmente
+nixPkgs = ["python311", "nodejs", "ffmpeg"]
 
 [phases.install]
-# Ahora los comandos reconocerán 'python' y 'npm'
 cmds = [
     "python -m venv /app/.venv",
     "/app/.venv/bin/pip install --upgrade pip",
@@ -12,9 +11,9 @@ cmds = [
 ]
 
 [phases.build]
-# Compilamos el Frontend de React
+# Compilación de la interfaz de React
 cmds = ["cd Frontend && npm run build"]
 
 [start]
-# Ejecutamos el servidor de Python
-cmd = "cd Backend && /app/.venv/bin/python api.py"
+# Comando para que Railway sirva el Frontend
+cmd = "cd Frontend && npm run preview -- --host 0.0.0.0 --port $PORT"
