@@ -1,5 +1,5 @@
 [phases.setup]
-# Usamos nombres genéricos para que Nix los resuelva con la versión de las variables
+# Usamos 'nodejs' a secas; Railway usará la versión 22 por la variable de entorno
 nixPkgs = ["python311", "nodejs", "ffmpeg"]
 
 [phases.install]
@@ -11,7 +11,9 @@ cmds = [
 ]
 
 [phases.build]
+# Forzamos la compilación del frontend de React
 cmds = ["cd Frontend && npm run build"]
 
 [start]
+# Iniciamos el servidor de Python usando el entorno virtual creado
 cmd = "cd Backend && /app/.venv/bin/python api.py"
