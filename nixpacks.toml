@@ -1,0 +1,13 @@
+[phases.setup]
+nixPkgs = ["python311", "nodejs-18_x", "ffmpeg"]
+
+[phases.install]
+# Instalamos pip y las dependencias en un solo paso de instalación
+cmds = [
+    "python -m ensurepip",
+    "python -m pip install --upgrade pip",
+    "cd Backend && pip install -r requirements.txt"
+]
+
+[start]
+cmd = "cd Backend && python api.py"
