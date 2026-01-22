@@ -1,6 +1,6 @@
 [phases.setup]
 # Usamos nombres que Nix reconoce universalmente para evitar errores de 'undefined variable'
-nixPkgs = ["python311", "nodejs", "ffmpeg"]
+nixPkgs = ["python311", "nodejs_22", "ffmpeg"]
 
 [phases.install]
 # Instalamos dependencias para ambos entornos
